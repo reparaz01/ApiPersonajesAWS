@@ -14,6 +14,12 @@ builder.Services.AddTransient<RepositoryPersonajes>();
 builder.Services.AddDbContext<PersonajesContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddControllers();
 
+builder.Services.AddCors(p => p.AddPolicy("corsenabled", options =>
+
+{
+    options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
@@ -51,6 +57,8 @@ app.UseSwaggerUI(options =>
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("corsenabled");
 
 app.MapControllers();
 
